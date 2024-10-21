@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes at least full viewport height */
+    font-family: Arial, sans-serif;
+    background-color: #f0f9f0;
+    color: #333;
+    padding: 50px; /* Add padding around the entire body */
+    
+}
+.container {
+    flex: 1; /* Allow the main content to grow and push the footer down */
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  #f0f9f0;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-size: 24px;
+    color: rgb(33, 56, 38);
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: rgb(33, 56, 38);
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    margin: 20px;
+    flex: 1; /* Allow the main content area to take up remaining space */
+}
+
+.description {
+    flex: 1;
+    padding: 20px;
+}
+
+.btn{
+  
+    background-color: rgb(33, 56, 38); /* Green background */
+    border: none; /* Remove default border */
+    color: white; /* White text color */
+    padding: 15px 32px; /* Padding for height and width */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Align with other elements */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Spacing between buttons */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.3s;
+}
+.image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+    border: 20px solid rgb(33, 56, 38);
+}
+
+footer {
+    background-color:#f0f9f0;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+
+footer nav ul li {
+    margin-left: 20px;
+}
+
+footer nav ul li a {
+    text-decoration: none;
+    color:rgb(33, 56, 38);
+}

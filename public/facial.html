@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facial Skin Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Facial Skin Analyzer</h1>
+    
+    <!-- Webcam or Upload Option -->
+    <div class="input-section">
+      <input type="file" id="uploadImage" accept="image/*" onchange="previewImage()">
+      <video id="webcam" width="400" height="300" autoplay></video>
+      <button onclick="captureImage()">Capture from Webcam</button>
+    </div>
+
+    <!-- Display the captured image -->
+    <canvas id="canvas" width="400" height="300"></canvas>
+    
+    <button id="analyzeButton" onclick="analyzeFace()">Analyze Face</button>
+    
+    <div id="result"></div>
+  </div>
+  
+  <script>
+    // Access webcam
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    const video = document.getElementById('webcam');
+    video.srcObject = stream;
+  })
+  .catch((error) => {
+    console.error('Error accessing the webcam', error);
+  });
+
+// Capture image from webcam
+function captureImage() {
+  const canvas = document.getElementById('canvas');
+  const video = document.getElementById('webcam');
+  const context = canvas.getContext('2d');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+}
+
+// Preview uploaded image
+function previewImage() {
+  const file = document.getElementById('uploadImage').files[0];
+  const reader = new FileReader();
+  
+  reader.onload = function (e) {
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = function () {
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext('2d');
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  };
+  
+  reader.readAsDataURL(file);
+}
+
+// Analyze face (mock function)
+function analyzeFace() {
+  const canvas = document.getElementById('canvas');
+  const imageData = canvas.toDataURL('image/png');
+  
+  fetch('/analyze', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ image: imageData }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('result').innerText = data.result;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+  </script>
+</body>
+</html>
