@@ -1,65 +1,31 @@
 const express = require('express');
 const path = require('path');
-const axios = require('axios');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
-
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+ // Initialize the app here
+const feedbackRoutes = require('./routes/feedback'); // Adjust the path as necessary
 const app = express();
-const PORT = process.env.PORT || 3000;
 
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '12345678',
-    database: 'facial_analysis',
-  });
-  
-  db.connect((err) => {
-    if (err) throw err;
-    console.log('Connected to MySQL database');
-  });
+// Database connection
 
-
-
-
-app.use(bodyParser.json({ limit: '10mb' }));
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req,res)=>{
+// Routes
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Example of using feedbackRoutes (make sure you define this properly)
+app.use('/feedback', feedbackRoutes); // Ensure feedbackRoutes is defined before this line
 
-app.get('/facial', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'facial.html'));
-  });
-
-
-  app.post('/analyze', (req, res) => {
-    const imageData = req.body.image;
-    
-    // For simplicity, we'll return mock analysis data here
-    const result = analyzeImage(imageData);
-    
-    // Save result to the database
-    const query = 'INSERT INTO analyses (image, result) VALUES (?, ?)';
-    db.query(query, [imageData, result], (err, result) => {
-      if (err) throw err;
-      res.json({ result: 'Analysis complete: Skin tone - Light, Pimples detected' });
-    });
-  });
-
-  // Mock function to analyze the image
-function analyzeImage(imageData) {
-    // Here you can add real AI logic using tools like TensorFlow.js or OpenCV
-    return 'Sample result';
-  }
-  
-
+// Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
