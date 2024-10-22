@@ -23,7 +23,9 @@ app.get('/', (req, res) => {
 
 // Example of using feedbackRoutes (make sure you define this properly)
 app.use('/feedback', feedbackRoutes); // Ensure feedbackRoutes is defined before this line
-
+app.get('/code', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'code.html'));
+  });
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
